@@ -1,0 +1,128 @@
+#!/bin/bash
+
+set -e
+DOT_DIRECTORY="${HOME}/dotfiles"
+DOT_TARBALL="https://github.com/penguin-knight/dotfiles/tarball/master"
+
+has(){
+  type "$0" > /dev/null 2>&1
+}
+
+usage(){
+  name=`basename $0`
+  cat <<EOF
+Usage:
+  $name [argument] [command]
+
+Commands:
+  deploy
+  initialize
+
+Arguments:
+  -f Overwrite dotfiles
+  -h Print help
+EOF
+  exit 1
+}
+
+while getopts :fh opt; do
+  case ${opt} in
+	f)
+	  OVERWRITE=true
+	  ;;
+	h)
+	  usage
+	  ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+# download dotfiles
+if [ ! -d ${DOT_DIRECTORY} ]; then
+  echo "Downloading dotfiles..."
+
+  mkdir ${DOT_DIRECTORY}
+
+  curl -fsSLo ${HOME}/dotfiles.tar.gz ${DOT_TARBALL}
+  tar -zxf ${HOME}/dotfiles.tar.gz --strip-components 1 -C ${DOT_DIRECTORY}
+  echo "Download dotfiles compelete!"
+fi
+
+# detect os type
+case ${OSTYPE} in
+	darwin*)
+		OS="osx"
+		;;
+  linux*)
+		if has "apt-get"; then
+	  	OS="debian"
+		elif has "yum"; then
+	  	OS="redhat"
+		fi
+		;;
+  *)
+		echo "Unsupported OS"
+		exit 1
+		;;
+esac
+
+cd ${DOT_DIRECTORY}
+
+link_files(){
+  for f in .??*
+  do
+	[ -n "${OVERWRITE}" -a -e ${HOME}/${f} ] && rm -rf ${HOME}/${f}
+	if [ ! -e ${HOME}/${f} ]; then
+	  [[ ${f} = ".git" ]] && continue
+	  [[ ${f} = ".gitignore" ]] && continue
+	  ln -snfv ${DOT_DIRECTORY}/${f} ${HOME}/${f}
+	fi
+  done
+
+  echo "Deploy dotfiles complete!"
+}
+
+install(){
+  case ${OS} in
+		osx)
+			brew install $1
+			;;
+		redhat)
+	  	sudo yum install $1
+	  	;;
+		debian)
+	  	sudo apt-get install $1
+	  	;;
+  esac
+
+  if [ $? = 0 ]; then
+		echo "Installed $1"
+  else
+		echo "Failed to install $1"
+		exit 1
+  fi
+}
+
+initialize(){
+  install git
+
+  # install vim-plug
+  curl -fLo ${DOT_DIRECTORY}/.vim/autoload/plug.vim --create-dirs \
+	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+}
+
+command=$1
+[ $# -gt 0 ] && shift
+
+case $command in
+  deploy)
+	link_files
+	;;
+  init*)
+	initialize
+	;;
+  *)
+	usage
+	;;
+esac
+
