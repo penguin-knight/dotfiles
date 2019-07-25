@@ -123,3 +123,6 @@ function! LightlineMode()
   return winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
+" python ===================================
+autocmd BufNewfile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
+autocmd BufNewfile,BufRead *.py setfiletype python 
