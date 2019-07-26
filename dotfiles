@@ -105,6 +105,7 @@ install(){
 
 initialize(){
   install git
+  install tmux
 
   # install vim-plug
   curl -fLo ${DOT_DIRECTORY}/.vim/autoload/plug.vim --create-dirs \
