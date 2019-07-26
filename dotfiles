@@ -54,10 +54,10 @@ case ${OSTYPE} in
 		OS="osx"
 		;;
   linux*)
-		if has "apt-get"; then
-	  	OS="debian"
-		elif has "yum"; then
+		if has "yum"; then
 	  	OS="redhat"
+		elif has "apt-get"; then
+	  	OS="debian"
 		fi
 		;;
   *)

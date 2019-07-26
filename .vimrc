@@ -32,6 +32,7 @@ set showmatch
 set laststatus=2
 set background=dark
 set t_Co=256
+set cursorline
 syntax on
 
 " search
