@@ -7,6 +7,7 @@ Plug 'shougo/neosnippet.vim'
 Plug 'shougo/neosnippet-snippets'
 Plug 'tyru/caw.vim'
 Plug 'itchyny/lightline.vim'
+Plug 'Vimjas/vim-python-pep8-indent'
 
 call plug#end()
 " General ================================================
