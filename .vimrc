@@ -8,6 +8,7 @@ Plug 'shougo/neosnippet-snippets'
 Plug 'tyru/caw.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'fatih/vim-go'
 
 call plug#end()
 " General ================================================
@@ -128,3 +129,7 @@ endfunction
 " python ===================================
 autocmd BufNewfile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
 autocmd BufNewfile,BufRead *.py setfiletype python 
+autocmd BUfNewFile,BufRead *.py nnoremap <C-e> :!python3 %
+
+" golang ===================================
+autocmd BufNewfile,BufRead *.go nnoremap <C-e> :!go run %
