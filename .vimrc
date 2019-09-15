@@ -23,8 +23,12 @@ set shiftwidth=2
 set smartindent
 set autoread
 set wildmenu
+set mouse-=a
 nnoremap j gj
 nnoremap k gk
+
+nnoremap <Up> <Nop>
+nnoremap <Down> <Nop>
 
 " display
 set number
