@@ -54,9 +54,9 @@ case ${OSTYPE} in
 		OS="osx"
 		;;
   linux*)
-		if has "yum"; then
+		if [ -e /etc/fedora-release ] || [ -e /etc/redhat-release ]; then
 	  	OS="redhat"
-		elif has "apt-get"; then
+		elif [ -e /etc/debian_version ] || [ -e /etc/debian_release ] || [-e /etc/lsb-release ]; then
 	  	OS="debian"
 		fi
 		;;
@@ -106,6 +106,9 @@ install(){
 initialize(){
   install git
   install tmux
+  install vim
+  install curl
+  install zsh
 
   # install vim-plug
   curl -fLo ${DOT_DIRECTORY}/.vim/autoload/plug.vim --create-dirs \
