@@ -41,6 +41,9 @@ esac
 alias sl='sl -e'
 alias vi='vim'
 
+# tmux自動起動
+[[ -z "$TMUX" && ! -z "$PS1" ]] && tmux
+
 #ブランチ名を色付きで表示させるメソッド
 function rprompt-git-current-branch {
   local branch_name st branch_status
