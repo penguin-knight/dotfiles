@@ -9,7 +9,9 @@ Plug 'tyru/caw.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'fatih/vim-go'
-
+Plug 'scrooloose/nerdtree'
+Plug 'airblade/vim-gitgutter'
+Plug 'posva/vim-vue'
 call plug#end()
 " General ================================================
 " setting
@@ -137,3 +139,6 @@ autocmd BUfNewFile,BufRead *.py nnoremap <C-e> :!python3 %
 
 " golang ===================================
 autocmd BufNewfile,BufRead *.go nnoremap <C-e> :!go run %
+
+" Plugin NERDTree ======================================
+nnoremap <C-e> :NERDTree<CR>
