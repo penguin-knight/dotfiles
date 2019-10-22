@@ -12,6 +12,8 @@ Plug 'fatih/vim-go'
 Plug 'scrooloose/nerdtree'
 Plug 'airblade/vim-gitgutter'
 Plug 'posva/vim-vue'
+Plug 'plasticboy/vim-markdown'
+Plug 'godlygeek/tabular'
 call plug#end()
 " General ================================================
 " setting
@@ -132,6 +134,11 @@ function! LightlineMode()
   return winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
+" Plguin vim-markdown ===================================
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_auto_insert_hellets = 0
+let g:vim_markdown_new_list_item_indent = 0
+
 " python ===================================
 autocmd BufNewfile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
 autocmd BufNewfile,BufRead *.py setfiletype python 
@@ -142,3 +149,9 @@ autocmd BufNewfile,BufRead *.go nnoremap <C-e> :!go run %
 
 " Plugin NERDTree ======================================
 nnoremap <C-e> :NERDTree<CR>
+
+" cursor setting
+augroup vimrcEx
+  au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
+  \ exe "normal g`\"" | endif
+augroup END
