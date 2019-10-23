@@ -3,8 +3,6 @@ scriptencoding utf-8
 
 " vim-plug ===============================================
 call plug#begin('~/.vim/plugged')
-Plug 'shougo/neosnippet.vim'
-Plug 'shougo/neosnippet-snippets'
 Plug 'tyru/caw.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'Vimjas/vim-python-pep8-indent'
@@ -14,6 +12,15 @@ Plug 'airblade/vim-gitgutter'
 Plug 'posva/vim-vue'
 Plug 'plasticboy/vim-markdown'
 Plug 'godlygeek/tabular'
+Plug 'bronson/vim-trailing-whitespace'
+
+" neocomplete
+if has('lua')
+  Plug 'Shougo/neocomplete.vim'
+  Plug 'shougo/neosnippet.vim'
+  Plug 'shougo/neosnippet-snippets'
+endif
+
 call plug#end()
 " General ================================================
 " setting
@@ -74,7 +81,7 @@ let g:neosnippet#snippets_direcotry='~/.vim/plugged/neosnippet-snippets/neosnipp
 nmap <Leader>c <Plug>(caw:hatpos:toggle)
 vmap <Leader>c <Plug>(caw:hatpos:toggle)
 
-" Plguin lightline.vim ===================================
+" Plugin lightline.vim ===================================
 let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'mode_map': {'c': 'NORMAL'},
@@ -134,10 +141,21 @@ function! LightlineMode()
   return winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
-" Plguin vim-markdown ===================================
+" Plugin vim-markdown ===================================
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_auto_insert_hellets = 0
 let g:vim_markdown_new_list_item_indent = 0
+
+" Plugin NERDTree ======================================
+nnoremap <C-e> :NERDTree<CR>
+
+" Plugin neocomplete ===================================
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#min_keyword_length = 3
+let g:neocomplete#enable_auto_delimiter = 1
+let g:neocomplete#auto_completion_start_length = 1
+inoremap <expr><BS> neocomplete#smart_close_popup()."<C-h>"
 
 " python ===================================
 autocmd BufNewfile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
@@ -147,10 +165,7 @@ autocmd BUfNewFile,BufRead *.py nnoremap <C-e> :!python3 %
 " golang ===================================
 autocmd BufNewfile,BufRead *.go nnoremap <C-e> :!go run %
 
-" Plugin NERDTree ======================================
-nnoremap <C-e> :NERDTree<CR>
-
-" cursor setting
+" cursor setting ===========================
 augroup vimrcEx
   au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
   \ exe "normal g`\"" | endif
