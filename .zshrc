@@ -83,8 +83,10 @@ setopt prompt_subst
 
 # プロンプトの右側(RPROMPT)にメソッドの結果を表示させる
 RPROMPT='`rprompt-git-current-branch`'
-export PATH="$HOME/.anyenv/bin:$PATH"
-eval "$(anyenv init -)"
+if [ -d $HOME/.anyenv ]; then
+  export PATH="$HOME/.anyenv/bin:$PATH"
+  eval "$(anyenv init -)"
+fi
 
 # ローカルの設定読み込み
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
