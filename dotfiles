@@ -60,6 +60,9 @@ case ${OSTYPE} in
 	  	OS="debian"
 		fi
 		;;
+  cygwin*)
+    OS="cygwin"
+    ;;
   *)
 		echo "Unsupported OS"
 		exit 1
@@ -93,6 +96,10 @@ install(){
 		debian)
 	  	sudo apt-get install $1
 	  	;;
+    cygwin)
+      echo "Please install ${1}"
+      return
+      ;;
   esac
 
   if [ $? = 0 ]; then
